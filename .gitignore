@@ -17,3 +17,6 @@ project/target/streams**
 target/scala-2.12/**
 target/.history3
 target/streams/**
+desktop.ini
+folder.ico
+insurance/.bloop

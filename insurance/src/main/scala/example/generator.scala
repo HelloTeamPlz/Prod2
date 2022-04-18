@@ -13,6 +13,10 @@ object genData {
 
     val random = new Random()
 
+    def main(args: Array[String]):Unit = {
+        println(name())
+    }
+
     def name(): String = {
         val filePath = "src/main/scala/example/names.txt"
         val file = new File(filePath)

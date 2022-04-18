@@ -20,3 +20,4 @@ target/streams/**
 desktop.ini
 folder.ico
 insurance/.bloop
+.DS_Store

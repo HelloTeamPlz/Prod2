@@ -6,7 +6,10 @@ import scala.io.Source
 import java.util.Properties
 import scala.util.Random
 
+
 object genData {
+    val random = new Random()
+
     def main(args: Array[String]):Unit = {
         println(data())
     }

@@ -24,9 +24,11 @@ object genData {
     def names(): String = {
         val nameList = getFileLines("src/main/scala/example/names.txt")
         val name = nameList(random.nextInt(nameList.length)).toString
+        // commented code is only if you want each name to have a unique id attached to it
+        // val id = nameList.indexOf(name) 
+        // val idName = s"$id,$name"
         return name
     }
-
 
     def age(): String = {
         val ageList = (20 to 90).toList
@@ -37,14 +39,9 @@ object genData {
     def data(): Any = {
         val cvsFeilds = Array("id", "name", "age")
     }
-    def reasons(): String={
-        val claim =Boolean
-        if (claim = paid) {claim = paid}
-        if (claim = not paid)
-            if( claim = non payment of premium)
-            if( claim = service not covered)
-            if(claim = non approved provider)
-            if (claim = policy not in effect)
-            if (claim = death ruled suicide)
+
+    def id(): String = {
+        val randID = UUID.randomUUID().toString()
+        return randID
     }
 }

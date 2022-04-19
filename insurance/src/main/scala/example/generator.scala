@@ -37,5 +37,14 @@ object genData {
     def data(): Any = {
         val cvsFeilds = Array("id", "name", "age")
     }
-
+    def reasons(): String={
+        val claim =Boolean
+        if (claim = paid) {claim = paid}
+        if (claim = not paid)
+            if( claim = non payment of premium)
+            if( claim = service not covered)
+            if(claim = non approved provider)
+            if (claim = policy not in effect)
+            if (claim = death ruled suicide)
+    }
 }

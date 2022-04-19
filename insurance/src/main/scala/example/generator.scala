@@ -27,6 +27,7 @@ object genData {
         return name
     }
 
+
     def age(): String = {
         val ageList = (20 to 90).toList
         var age = ageList(random.nextInt(ageList.length)).toString

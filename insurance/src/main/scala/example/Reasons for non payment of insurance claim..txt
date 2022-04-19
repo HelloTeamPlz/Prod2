@@ -1,0 +1,5 @@
+non payment of premium,
+ service not covered,
+ non approved provider,
+ policy not in effect during claim, 
+death ruled suicide

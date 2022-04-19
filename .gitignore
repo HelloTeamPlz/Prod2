@@ -15,3 +15,8 @@ target/.history3
 target/**
 project/.bloop/**
 project/project/**
+target/streams/**
+desktop.ini
+folder.ico
+insurance/.bloop
+.DS_Store

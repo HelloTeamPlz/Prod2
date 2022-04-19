@@ -37,5 +37,5 @@ object genData {
     def data(): Any = {
         val cvsFeilds = Array("id", "name", "age")
     }
-
+    def reasons(): String={}
 }

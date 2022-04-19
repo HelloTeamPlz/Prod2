@@ -5,6 +5,7 @@ import java.io.File
 import scala.io.Source
 import java.util.Properties
 import scala.util.Random
+import java.util.UUID
 
 object genData {
     def main(args: Array[String]):Unit = {
@@ -12,10 +13,6 @@ object genData {
     }
 
     val random = new Random()
-
-    def main(args: Array[String]):Unit = {
-        println(name())
-    }
 
     def name(): String = {
         val filePath = "src/main/scala/example/names.txt"

@@ -8,7 +8,7 @@ import scala.util.Random
 
 object genData {
     def main(args: Array[String]):Unit = {
-        println(data())
+
     }
 
     val random = new Random()
@@ -28,7 +28,5 @@ object genData {
     def data(): Any = {
         val cvsFeilds = Array("id", "name", "age")
     }
-    
-    
 
 }

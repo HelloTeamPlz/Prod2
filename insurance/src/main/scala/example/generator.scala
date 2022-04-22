@@ -5,6 +5,9 @@ import java.io._
 import scala.io.Source
 import java.util.Properties
 import scala.util.Random
+import java.util.Calendar;
+import java.time.LocalDateTime
+import javax.print.attribute.DateTimeSyntax
 import java.util.UUID
 import com.opencsv._
 import scala.collection.JavaConverters._
@@ -12,10 +15,14 @@ import scala.util._
 
 object genData {
 
+
+object genData {
+
     val random = new Random()
+    val country = "United States of America"
 
     def main(args: Array[String]):Unit = {
-        println(data())
+        println(date())
     }
 
     def getFileLines(filePath: String): List[Any] = {
@@ -38,6 +45,24 @@ object genData {
         var age = ageList(random.nextInt(ageList.length)).toString // randomomly selects a num in the list
         return age
     }
+
+
+    def state(): String = {
+        val filePath = "src/main/scala/example/states.txt"
+        val file = new File(filePath)
+        val stateList = Source.fromFile(file).getLines().toList
+        val state = stateList(random.nextInt(stateList.length))
+        return state
+    }
+
+    def date(): String = {
+        val filePath = "src/main/scala/example/date.txt"
+        val file = new File(filePath)
+        val dateList = Source.fromFile(file).getLines().toList
+        val date = dateList(random.nextInt(dateList.length))
+        return date
+    }
+
 
     def writeCsvFile(fileName: String,header: List[String], rows: List[List[String]]): Try[Unit] =
     Try(new CSVWriter(new BufferedWriter(new FileWriter(fileName)))).flatMap((csvWriter: CSVWriter) =>

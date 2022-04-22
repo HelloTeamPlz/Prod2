@@ -19,7 +19,7 @@ object genData {
       val feilds = "claim_id,customer_id,customer_name,Customer_age,agent_id,agent_name,claim_category,amount,reason,agent_rating,datetime,country,state,approval,reimbursement_id,failure_reason\n"
       writeToFile(insData, feilds)
       println("Creating Data")
-      for(i <- 1 until 50) //for loop to determine how big to make data set
+      for(i <- 1 until 5000) //for loop to determine how big to make data set
       {
         val claim = claimCat() //claim paramater to pass to reasonCC/falure reason
         val approvalIs = approval()//aapproval paramater to pass to falure reason
@@ -153,7 +153,7 @@ object genData {
     }
 
     def failureReason(claimCat: String, approval: String): String = {
-      val denialReasons = List("Not covered by policy","Doctor Not in Coverage Network", "Expired insurance", "Duducable Not Met")
+      val denialReasons = List("Not covered by policy","Doctor Not in Coverage Network", "Expired insurance", "deductible Not Met")
       val lifeReasons = List("policy not in effect during claim", "non payment of premium", "death ruled suicide")    
       if(approval == "N") // checks to see what if the claim was approved or not
         {
@@ -170,7 +170,7 @@ object genData {
         } 
       else
         {
-          val noReason = "" // if it is approved returns nothing
+          val noReason = "NULL" // if it is approved returns nothing
           return noReason
         }
       }

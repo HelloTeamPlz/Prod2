@@ -13,10 +13,12 @@ import javax.print.attribute.DateTimeSyntax
 object genData {
 
     def main(args: Array[String]):Unit = {
-        println(randomDate())
+        println(date())
     }
 
     val random = new Random()
+    val country = "United States of America"
+
 
 
     def name(): String = {
@@ -35,12 +37,6 @@ object genData {
         val cvsFeilds = Array("id", "name", "age")
     }
 
-
-    def country(): String = {
-        val country = "United States of America"
-        return country
-    }
-
     def state(): String = {
         val filePath = "src/main/scala/example/states.txt"
         val file = new File(filePath)
@@ -49,15 +45,12 @@ object genData {
         return state
     }
 
-    def randomDate(): String = {
-        val yearAdd = 201
-        val month = scala.util.Random
-        val day = scala.util.Random
-        val year = scala.util.Random
-        // println((month.nextInt(12).toString), (day.nextInt(30).toString))
-        println(month.nextInt(12).toString)
-        println(day.nextInt(30).toString)
-        yearAdd.toString + year.nextInt(9).toString
+    def date(): String = {
+        val filePath = "src/main/scala/example/date.txt"
+        val file = new File(filePath)
+        val dateList = Source.fromFile(file).getLines().toList
+        val date = dateList(random.nextInt(dateList.length))
+        return date
     }
 
 }

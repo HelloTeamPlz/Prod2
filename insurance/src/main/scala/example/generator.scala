@@ -13,10 +13,15 @@ object genData {
 
     val random = new Random()
     val country = "United States of America"
+    val insData = "src/main/scala/example/insurance.csv"
 
     def main(args: Array[String]):Unit = {
-      data = id() + "," + id()
-      println(date())
+      writeToFile(insData, "")
+      for(i <- 1 until 50000)
+      {
+        val data = id() + "," + id() + "," + names() + "," + age()
+        appendToFile(insData, data)
+      }
     }
 
     def getFileLines(filePath: String): List[Any] = {

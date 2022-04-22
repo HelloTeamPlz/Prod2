@@ -49,14 +49,6 @@ object genData {
         return state
     }
 
-    // def randomDate(): String = {
-    //     val day = new scala.util.Random.nextInt(30).toString
-    //     val month = new scala.util.Random.nextInt(12).toString
-    //     val year = new scala.util.Random.nextInt(2022).toString
-    //     print(day)
-    // }
-
-
     def randomDate(): String = {
         val yearAdd = 201
         val month = scala.util.Random

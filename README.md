@@ -6,7 +6,7 @@
 * [Setup](#setup)
 
 ## General info
-This project is a command line interface paper trader written in python. It takes real time stock data from two diffent free api's [finnhub](https://finnhub.io/) to get real time stock data. [Alphavantage](https://www.alphavantage.co) to get historical data.
+This project contains two parts: a data generator that creates a csv file with random data in it. It also contains an analysis file that takes information from a csv and analyzes the information as well as some functions to take the data in the csv and graph it.
 	
 ## Technologies
 Project is created with:

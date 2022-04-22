@@ -19,7 +19,7 @@ object genData {
       val feilds = "claim_id,customer_id,customer_name,Customer_age,agent_id,agent_name,claim_category,amount,reason,agent_rating,datetime,country,state,approval,reimbursement_id,failure_reason\n"
       writeToFile(insData, feilds)
       println("Creating Data")
-      for(i <- 1 until 50) //for loop to determine how big to make data set
+      for(i <- 1 until 5000) //for loop to determine how big to make data set
       {
         val claim = claimCat() //claim paramater to pass to reasonCC/falure reason
         val approvalIs = approval()//aapproval paramater to pass to falure reason

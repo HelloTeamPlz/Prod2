@@ -5,16 +5,9 @@ import java.io._
 import scala.io.Source
 import java.util.Properties
 import scala.util.Random
-import java.util.Calendar;
-import java.time.LocalDateTime
-import javax.print.attribute.DateTimeSyntax
 import java.util.UUID
-import com.opencsv._
 import scala.collection.JavaConverters._
 import scala.util._
-
-object genData {
-
 
 object genData {
 
@@ -22,7 +15,8 @@ object genData {
     val country = "United States of America"
 
     def main(args: Array[String]):Unit = {
-        println(date())
+      data = id() + "," + id()
+      println(date())
     }
 
     def getFileLines(filePath: String): List[Any] = {
@@ -46,7 +40,6 @@ object genData {
         return age
     }
 
-
     def state(): String = {
         val filePath = "src/main/scala/example/states.txt"
         val file = new File(filePath)
@@ -63,26 +56,21 @@ object genData {
         return date
     }
 
+    def using[A <: {def close(): Unit}, B](param: A)(f: A => B): B =
+      try { f(param) } finally { param.close() }
 
-    def writeCsvFile(fileName: String,header: List[String], rows: List[List[String]]): Try[Unit] =
-    Try(new CSVWriter(new BufferedWriter(new FileWriter(fileName)))).flatMap((csvWriter: CSVWriter) =>
-        Try{
-        csvWriter.writeAll(
-            (header +: rows).map(_.toArray).asJava
-        )
-        csvWriter.close()
-        } match {
-        case f @ Failure(_) =>
-            // Always return the original failure.  In production code we might
-            // define a new exception which wraps both exceptions in the case
-            // they both fail, but that is omitted here.
-            Try(csvWriter.close()).recoverWith{
-            case _ => f
-            }
-        case success =>
-            success
-        }
-    )
+    def writeToFile(fileName:String, data:String) = 
+      using (new FileWriter(fileName)) 
+      {
+        fileWriter => fileWriter.write(data)
+      }
+
+    def appendToFile(fileName:String, textData:String) =
+      using (new FileWriter(fileName, true)){ 
+      fileWriter => using (new PrintWriter(fileWriter)) {
+        printWriter => printWriter.println(textData)
+      }
+    }
 
   def id(): String = {
         val randID = UUID.randomUUID().toString() // gives rand uuid 

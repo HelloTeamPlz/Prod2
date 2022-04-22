@@ -81,4 +81,39 @@ object genData {
         val randID = UUID.randomUUID().toString() // gives rand uuid 
         return randID
     }
+    def amount() : String = {
+        val amountList = (500 to 30000).toList
+        var amount = amountList(random.nextInt(amountList.length)).toString
+        return amount
+    }
+    def claimCat() : String = {
+        val categoryList = List( "Dental", "Vision", "Medical", "Life")
+        var category = categoryList(random.nextInt(categoryList.length)).toString()
+
+
+        return category
+    }
+    def reasonCC(claimCat : String) : Unit = {
+        
+        val reasonList1 = List("Traffic accident", "Sickness/Injury/Death")
+        val reasonList2 = List("Traffic accident", "Sickness/Injury/Death", 
+        "Terrorist attack", "Property damage")
+        val reasonList3 = List("Traffic accident", "Sickness/Injury/Death", 
+        "Terrorist attack")
+
+        if (claimCat == "Dental") {
+            println(reasonList1(random.nextInt(reasonList1.length)).toString())
+        }
+        else if(claimCat == "Vision"){
+            println(reasonList3(random.nextInt(reasonList3.length)).toString())
+
+        }
+        else if(claimCat == "Medical"){
+            println(reasonList3(random.nextInt(reasonList3.length)).toString())
+        }
+        else {
+            println(reasonList2(random.nextInt(reasonList2.length)).toString())
+        }
+        
+    }
 }

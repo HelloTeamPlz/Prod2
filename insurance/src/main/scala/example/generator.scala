@@ -153,7 +153,7 @@ object genData {
     }
 
     def failureReason(claimCat: String, approval: String): String = {
-      val denialReasons = List("Not covered by policy","Doctor Not in Coverage Network", "Expired insurance", "Duducable Not Met")
+      val denialReasons = List("Not covered by policy","Doctor Not in Coverage Network", "Expired insurance", "deductible Not Met")
       val lifeReasons = List("policy not in effect during claim", "non payment of premium", "death ruled suicide")    
       if(approval == "N") // checks to see what if the claim was approved or not
         {

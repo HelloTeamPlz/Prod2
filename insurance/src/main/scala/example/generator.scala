@@ -170,7 +170,7 @@ object genData {
         } 
       else
         {
-          val noReason = "" // if it is approved returns nothing
+          val noReason = "NULL" // if it is approved returns nothing
           return noReason
         }
       }

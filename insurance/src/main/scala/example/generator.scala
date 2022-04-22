@@ -13,17 +13,18 @@ object genData {
 
     val random = new Random()
     val country = "United States of America"
-    val insData = "src/main/scala/example/insurance.csv"
-    val feilds = "claim_id"+ "," +"customer_id"+ "," +"customer_name"+ "," +"Customer_age"+ "," +"agent_id"+ "," +"agent_name"+ "," +"claim_category"+ "," +"amount"+ "," +"reason"+ "," +"agent_rating"+ "," +"datetime"+ "," +"country"+ "," +"state"+ "," +"approval"+ "," +"reimbursement_id"
 
     def main(args: Array[String]):Unit = {
+      val insData = "src/main/scala/example/insurance.csv"
+      val feilds = "claim_id,customer_id,customer_name,Customer_age,agent_id,agent_name,claim_category,amount,reason,agent_rating,datetime,country,state,approval,reimbursement_id,failure_reason\n"
       writeToFile(insData, feilds)
       println("Creating Data")
-      for(i <- 1 until 10000)
+      for(i <- 1 until 50) //for loop to determine how big to make data set
       {
-        val claim = claimCat()
-        println(s"Creating Data: ${i + 1}")
-        val data = id() + "," + id() + "," + names() + "," + age() + "," + agentid() + "," + agent_name() + "," + claimCat() + "," + amount() + "," + reasonCC(claim) + ","  + agentRating() + "," + date() + "," + country + "," + state() 
+        val claim = claimCat() //claim paramater to pass to reasonCC/falure reason
+        val approvalIs = approval()//aapproval paramater to pass to falure reason
+        println(s"Creating Data: ${i + 1}") // prints the count of as data is being created
+        val data = id() + "," + id() + "," + names() + "," + age() + "," + agentNameId() + "," + claim + "," + amount() + "," + reasonCC(claim) + ","  + agentRating() + "," + date() + "," + country + "," + state() + "," + approvalIs + "," + id() + "," + failureReason(claim,approvalIs) 
         appendToFile(insData, data)
       }
     }
@@ -66,18 +67,18 @@ object genData {
     }
 
     def using[A <: {def close(): Unit}, B](param: A)(f: A => B): B =
-      try { f(param) } finally { param.close() }
+      try { f(param) } finally { param.close() }//this function closes files after writing
 
     def writeToFile(fileName:String, data:String) = 
       using (new FileWriter(fileName)) 
       {
-        fileWriter => fileWriter.write(data)
+        fileWriter => fileWriter.write(data)//simple write function will over write the contents of a file
       }
 
     def appendToFile(fileName:String, textData:String) =
       using (new FileWriter(fileName, true)){ 
       fileWriter => using (new PrintWriter(fileWriter)) {
-        printWriter => printWriter.println(textData)
+        printWriter => printWriter.println(textData)// this is the appending funtion and will not overwrite a file
       }
     }
 
@@ -102,51 +103,75 @@ object genData {
 
     def reasonCC(claimCat : String) : String = {
       
-      val reasonList1 = List("Teeth cleaning","Cavity", "Braces", "Dental Xrays")
-      val reasonList2 = List("Traffic accident", "Sickness/Injury/Death", 
-      "Terrorist attack", "Heart Attack")
-      val reasonList3 = List("New glasses","Eye exam", "contacts")
-      val reasonList = List("Health check up", "Broken Bone", "Flu diagnosis")
+      val dentalReasons = List("Teeth cleaning","Cavity", "Braces", "Dental Xrays")
+      val lifeReasons = List("Fatal Traffic Accident", "Death", "Terrorist Attack", "Fatal Heart Attack")
+      val visonReasons = List("New glasses","Eye exam", "New Contacts", "Lazer Eye Surgery")
+      val medicalReasons = List("Health Check Up", "Broken Bone", "Flu diagnosis", "Vaccinations")
 
       if (claimCat == "Dental") {
-        val dent = reasonList1(random.nextInt(reasonList1.length)).toString()
+        val dent = dentalReasons(random.nextInt(dentalReasons.length)).toString()
         return dent
       }
       else if(claimCat == "Vision"){
-        val vis = reasonList3(random.nextInt(reasonList3.length)).toString()
+        val vis = visonReasons(random.nextInt(visonReasons.length)).toString()
         return vis
       }
       else if(claimCat == "Medical"){
-        val med = reasonList(random.nextInt(reasonList3.length)).toString()
+        val med = medicalReasons(random.nextInt(visonReasons.length)).toString()
         return med
       }
       else {
-        val el = reasonList2(random.nextInt(reasonList2.length)).toString()
+        val el = lifeReasons(random.nextInt(lifeReasons.length)).toString()
         return el
       }  
     }
+    //dwaynes id function
+  //   def agentid(): String = {
+  //     val agentsid = (1 to 10).toList
+  //     var iD = agentsid(random.nextInt(agentsid.length)).toString()
+  //     return iD
+  // }
 
-    def agentid(): String = {
-      val agentsid = (1 to 10).toList
-      var iD = agentsid(random.nextInt(agentsid.length)).toString()
-      return iD
-  }
-
-    def agentage(): String = {
-      val ageList = (30 to 90).toList
-      var age = ageList(random.nextInt(ageList.length)).toString()
-      return age
-    }
-
-    def agent_name(): String = {
-      val names = List("Michael","Christopher","Jessica","Matthew","Ashley","Jennifer","Joshua","Amanda","Daniel","David")
-      var name = names(random.nextInt(names.length)).toString()
-      return name
+    def agentNameId(): String = {
+      val nameList = List("Michael","Christopher","Jessica","Matthew","Ashley","Jennifer","Joshua","Amanda","Daniel","David")
+      var name = nameList(random.nextInt(nameList.length)).toString()// randomly gets a name from the list
+      val id = nameList.indexOf(name)//gets the index of the random name in the list
+      val idName = s"${id+1},$name" //creates a string with the id+1 so that there is no 0 id and then the name the id is attached to
+      return idName
     }
 
     def agentRating(): String = {
-      val ratingList = (2 to 10).toList
-      val rating = ratingList(random.nextInt(ratingList.length)).toString()
+      val ratingList = (1 to 10).toList // 1-10 as a list
+      val rating = ratingList(random.nextInt(ratingList.length)).toString() // randomomly selects a num in the list
       return rating
     }
+
+    def approval(): String = {
+      val approvalList = List("Y", "N")
+      val approval = approvalList(random.nextInt(approvalList.length)).toString()// randomomly selects a Y/N in the list
+      return approval
+    }
+
+    def failureReason(claimCat: String, approval: String): String = {
+      val denialReasons = List("Not covered by policy","Doctor Not in Coverage Network", "Expired insurance", "Duducable Not Met")
+      val lifeReasons = List("policy not in effect during claim", "non payment of premium", "death ruled suicide")    
+      if(approval == "N") // checks to see what if the claim was approved or not
+        {
+          if (claimCat == "Life") 
+            {
+              val lifeR = lifeReasons(random.nextInt(lifeReasons.length)).toString() // if its a life insurance case then randomly seleces and item in the lifereasons list
+              return lifeR
+            }
+          else 
+            {
+              val denialR = denialReasons(random.nextInt(denialReasons.length)).toString()// if its not a life insurance case then randomly seleces and item in the denialreasons list 
+              return denialR
+            }
+        } 
+      else
+        {
+          val noReason = "" // if it is approved returns nothing
+          return noReason
+        }
+      }
 }

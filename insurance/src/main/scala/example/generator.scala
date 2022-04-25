@@ -15,8 +15,9 @@ object genData {
     val country = "United States of America"
 
     def main(args: Array[String]):Unit = {
-      // createCSV()
-      
+      //createCSV()
+      //Analyze.copyFromLocal() // moves it into hdfs
+      Analyze.fromCSVFile()
     }
 
     def getFileLines(filePath: String): List[Any] = {

@@ -13,20 +13,15 @@ object genData {
 
     val random = new Random()
     val country = "United States of America"
-
+    val namesFile = "/home/maria_dev/names.txt"
+    val statesFile = "/home/maria_dev/states.txt"
+    val dateFile = "/home/maria_dev/date.txt"
+    val csvFile = "/home/maria_dev/insurance.csv"
+ 
     def main(args: Array[String]):Unit = {
-      val insData = "src/main/scala/example/insurance.csv"
-      val feilds = "claim_id,customer_id,customer_name,Customer_age,agent_id,agent_name,claim_category,amount,reason,agent_rating,datetime,country,state,approval,reimbursement_id,failure_reason\n"
-      writeToFile(insData, feilds)
-      println("Creating Data")
-      for(i <- 1 until 5000) //for loop to determine how big to make data set
-      {
-        val claim = claimCat() //claim paramater to pass to reasonCC/falure reason
-        val approvalIs = approval()//aapproval paramater to pass to falure reason
-        println(s"Creating Data: ${i + 1}") // prints the count of as data is being created
-        val data = id() + "," + id() + "," + names() + "," + age() + "," + agentNameId() + "," + claim + "," + amount() + "," + reasonCC(claim) + ","  + agentRating() + "," + date() + "," + country + "," + state() + "," + approvalIs + "," + id() + "," + failureReason(claim,approvalIs) 
-        appendToFile(insData, data)
-      }
+      createCSV()
+      Analyze.copyFromLocal() // moves the file into hdfs
+      Analyze.fromCSVFile() // turns the csv file into a dataframe
     }
 
     def getFileLines(filePath: String): List[Any] = {
@@ -36,7 +31,7 @@ object genData {
     }
 
     def names(): String = {
-        val nameList = getFileLines("src/main/scala/example/names.txt") //returns a list of names using the getfilelines function
+        val nameList = getFileLines(namesFile) //returns a list of names using the getfilelines function
         val name = nameList(random.nextInt(nameList.length)).toString // randomly gets a name from the list
         // commented code is only if you want each name to have a unique id attached to it
         // val id = nameList.indexOf(name) 
@@ -51,7 +46,7 @@ object genData {
     }
 
     def state(): String = {
-        val filePath = "src/main/scala/example/states.txt"
+        val filePath = statesFile
         val file = new File(filePath)
         val stateList = Source.fromFile(file).getLines().toList
         val state = stateList(random.nextInt(stateList.length))
@@ -59,7 +54,7 @@ object genData {
     }
 
     def date(): String = {
-        val filePath = "src/main/scala/example/date.txt"
+        val filePath = dateFile
         val file = new File(filePath)
         val dateList = Source.fromFile(file).getLines().toList
         val date = dateList(random.nextInt(dateList.length))
@@ -173,6 +168,20 @@ object genData {
           val noReason = "NULL" // if it is approved returns nothing
           return noReason
         }
+      }
+    def createCSV(): Unit = {
+      val insData = csvFile
+      val feilds = "claim_id,customer_id,customer_name,Customer_age,agent_id,agent_name,claim_category,amount,reason,agent_rating,datetime,country,state,approval,reimbursement_id,failure_reason\n"
+      writeToFile(insData, feilds)
+      println("Creating Data")
+      for(i <- 1 until 5000) //for loop to determine how big to make data set
+      {
+        val claim = claimCat() //claim paramater to pass to reasonCC/falure reason
+        val approvalIs = approval()//aapproval paramater to pass to falure reason
+        println(s"Creating Data: ${i + 1}") // prints the count of as data is being created
+        val data = id() + "," + id() + "," + names() + "," + age() + "," + agentNameId() + "," + claim + "," + amount() + "," + reasonCC(claim) + ","  + agentRating() + "," + date() + "," + country + "," + state() + "," + approvalIs + "," + id() + "," + failureReason(claim,approvalIs) 
+        appendToFile(insData, data)
+      }
       }
 }
 

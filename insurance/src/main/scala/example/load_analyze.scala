@@ -9,10 +9,6 @@ import org.apache.hadoop.fs.Path;
 object Analyze {
 
   val path = "hdfs://sandbox-hdp.hortonworks.com:8020/user/maria_dev/"
-  def main(args: Array[String]) {
-    createFile()
-    copyFromLocal()
-  }
 
   def copyFromLocal(): Unit = {
     val src = "file:///home/maria_dev/files2.txt"

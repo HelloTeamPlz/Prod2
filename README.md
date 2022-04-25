@@ -17,25 +17,34 @@ Project is created with:
 * scala.collection.JavaConverters._
 	
 ## Setup
-To run this project clone it from git hub and follow these steps:
-Make sure you set how large of a csv file you want to create in the generator.scala
+To run this project clone it from git hub and follow these steps:\
+Make sure you set how large of a csv file you want to create in the generator.scala\
+From prod2 folder copy the followoing files to your unix machine
+```
+scp -P 2222 ./insurance.csv maria_dev@sandbox-hdp.hortonworks.com:/home/maria_dev
+scp -P 2222 ./names.txt maria_dev@sandbox-hdp.hortonworks.com:/home/maria_dev
+scp -P 2222 ./states maria_dev@sandbox-hdp.hortonworks.com:/home/maria_dev
+scp -P 2222 ./date.txt maria_dev@sandbox-hdp.hortonworks.com:/home/maria_dev
+```
+to set the amount of lines created in your csv change the value in the for loop in genorator.scala
 ```
 for(i <- 1 until 5000)
 ```
-will create a CSV with 5,000 lines
-
-To run generator.scala
-Step 1:
+will create a CSV with 5,000 lines\
+To run generator.scala\
+To Run the genorator Follow these steps:\
+Step 1(start sbt):
 ```
-cd Prod2/insurance
-```
-Step 2(Start SBT):
-```
+cd insurance
 sbt
+Compile
+Package
 ```
-Step 3(Run/Compile/Package):
+Step 2(Copy the JAR file to your vm)):
 ```
-run
-compile 
-package
+scp -P 2222 ./insurance_2.11-0.1.0-SNAPSHOT.jar maria_dev@sandbox-hdp.hortonworks.com:/home/maria_dev
+```
+Step 3(Run on the VM):
+```
+spark-submit --deploy-mode client ./insurance_2.11-0.1.0-SNAPSHOT.jar --class example.genData
 ```

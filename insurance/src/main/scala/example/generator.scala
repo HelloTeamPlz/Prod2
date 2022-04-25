@@ -15,18 +15,8 @@ object genData {
     val country = "United States of America"
 
     def main(args: Array[String]):Unit = {
-      val insData = "src/main/scala/example/insurance.csv"
-      val feilds = "claim_id,customer_id,customer_name,Customer_age,agent_id,agent_name,claim_category,amount,reason,agent_rating,datetime,country,state,approval,reimbursement_id,failure_reason\n"
-      writeToFile(insData, feilds)
-      println("Creating Data")
-      for(i <- 1 until 5000) //for loop to determine how big to make data set
-      {
-        val claim = claimCat() //claim paramater to pass to reasonCC/falure reason
-        val approvalIs = approval()//aapproval paramater to pass to falure reason
-        println(s"Creating Data: ${i + 1}") // prints the count of as data is being created
-        val data = id() + "," + id() + "," + names() + "," + age() + "," + agentNameId() + "," + claim + "," + amount() + "," + reasonCC(claim) + ","  + agentRating() + "," + date() + "," + country + "," + state() + "," + approvalIs + "," + id() + "," + failureReason(claim,approvalIs) 
-        appendToFile(insData, data)
-      }
+      // createCSV()
+      
     }
 
     def getFileLines(filePath: String): List[Any] = {
@@ -173,6 +163,20 @@ object genData {
           val noReason = "NULL" // if it is approved returns nothing
           return noReason
         }
+      }
+    def createCSV(): Unit = {
+      val insData = "src/main/scala/example/insurance.csv"
+      val feilds = "claim_id,customer_id,customer_name,Customer_age,agent_id,agent_name,claim_category,amount,reason,agent_rating,datetime,country,state,approval,reimbursement_id,failure_reason\n"
+      writeToFile(insData, feilds)
+      println("Creating Data")
+      for(i <- 1 until 5000) //for loop to determine how big to make data set
+      {
+        val claim = claimCat() //claim paramater to pass to reasonCC/falure reason
+        val approvalIs = approval()//aapproval paramater to pass to falure reason
+        println(s"Creating Data: ${i + 1}") // prints the count of as data is being created
+        val data = id() + "," + id() + "," + names() + "," + age() + "," + agentNameId() + "," + claim + "," + amount() + "," + reasonCC(claim) + ","  + agentRating() + "," + date() + "," + country + "," + state() + "," + approvalIs + "," + id() + "," + failureReason(claim,approvalIs) 
+        appendToFile(insData, data)
+      }
       }
 }
 

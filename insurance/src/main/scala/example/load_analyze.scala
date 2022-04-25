@@ -41,7 +41,7 @@ def fromCSVFile(): Unit = {
       .option("inferSchema", true)
       .csv("file:///home/maria_dev/insurance.csv")
     
-    //df.show()
+    df.show()
     //df.createOrReplaceTempView("insuranceTable") 
     //spark.newSession().sql("SELECT * FROM insuranceTable").show()
     }

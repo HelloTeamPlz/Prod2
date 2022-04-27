@@ -43,6 +43,155 @@ def fromCSVFile(): Unit = {
     
     df.show()
     //df.createOrReplaceTempView("insuranceTable") 
-    //spark.newSession().sql("SELECT * FROM insuranceTable").show()
+    //spark.sql("""
+    //SELECT state, AVG(customer_age)
+    //FROM insuranceTable
+    //GROUP BY state
+    //ORDER BY AVG(customer_age) ASC
+    //""").show()
     }
+
+
+def avgAge(): Unit = {
+    val spark: SparkSession = SparkSession
+        .builder()
+        .master("local[3]")
+        .appName("Synergy")
+        .getOrCreate()
+        spark.sparkContext.setLogLevel("ERROR")
+
+    val sc = spark.sparkContext
+    val df = spark.read
+      .option("header", true)
+      .option("inferSchema", true)
+      .csv("file:///home/maria_dev/insurance.csv")
+    
+    df.createOrReplaceTempView("insuranceTable") 
+    spark.sql("""
+    SELECT state, AVG(customer_age)
+    FROM insuranceTable
+    GROUP BY state
+    ORDER BY AVG(customer_age) ASC
+    """).show()
+    }
+
+def claimsByCategory(): Unit = {
+    val spark: SparkSession = SparkSession
+        .builder()
+        .master("local[3]")
+        .appName("Synergy")
+        .getOrCreate()
+        spark.sparkContext.setLogLevel("ERROR")
+
+    val sc = spark.sparkContext
+    val df = spark.read
+      .option("header", true)
+      .option("inferSchema", true)
+      .csv("file:///home/maria_dev/insurance.csv")
+    
+    df.createOrReplaceTempView("insuranceTable") 
+    spark.sql("""
+    SELECT claim_category, COUNT(amount)
+    FROM insuranceTable
+    GROUP By claim_category
+    ORDER BY COUNT(amount) DEsC
+    """).show()
+    }
+
+
+def highestFillingStates(): Unit = {
+    val spark: SparkSession = SparkSession
+        .builder()
+        .master("local[3]")
+        .appName("Synergy")
+        .getOrCreate()
+        spark.sparkContext.setLogLevel("ERROR")
+
+    val sc = spark.sparkContext
+    val df = spark.read
+      .option("header", true)
+      .option("inferSchema", true)
+      .csv("file:///home/maria_dev/insurance.csv")
+    
+    df.createOrReplaceTempView("insuranceTable") 
+    spark.sql("""
+    SELECT state, COUNT(amount)
+    FROM insuranceTable
+    GROUP By state, country
+    ORDER BY COUNT(amount) DEsC LIMIT 10
+    """).show()
+    }
+
+def mostFiledReason(): Unit = {
+    val spark: SparkSession = SparkSession
+        .builder()
+        .master("local[3]")
+        .appName("Synergy")
+        .getOrCreate()
+        spark.sparkContext.setLogLevel("ERROR")
+
+    val sc = spark.sparkContext
+    val df = spark.read
+      .option("header", true)
+      .option("inferSchema", true)
+      .csv("file:///home/maria_dev/insurance.csv")
+    
+    df.createOrReplaceTempView("insuranceTable") 
+    spark.sql("""
+    SELECT reason, claim_category, COUNT(amount)
+    FROM insuranceTable
+    GROUP BY reason, claim_category
+    ORDER BY COUNT(reason) DEsC LIMIT 5
+    """).show()
+    }
+
+def approvalByCategory(): Unit = {
+    val spark: SparkSession = SparkSession
+        .builder()
+        .master("local[3]")
+        .appName("Synergy")
+        .getOrCreate()
+        spark.sparkContext.setLogLevel("ERROR")
+
+    val sc = spark.sparkContext
+    val df = spark.read
+      .option("header", true)
+      .option("inferSchema", true)
+      .csv("file:///home/maria_dev/insurance.csv")
+    
+    df.createOrReplaceTempView("insuranceTable") 
+    spark.sql("""
+    SELECT claim_category, approval, COUNT(approval)
+    FROM insuranceTable
+    WHERE approval = "Y"
+    GROUP By claim_category, approval
+    ORDER BY COUNT(approval) DEsC
+    """).show()
+    }
+
+def unApprovalByCategory(): Unit = {
+    val spark: SparkSession = SparkSession
+        .builder()
+        .master("local[3]")
+        .appName("Synergy")
+        .getOrCreate()
+        spark.sparkContext.setLogLevel("ERROR")
+
+    val sc = spark.sparkContext
+    val df = spark.read
+      .option("header", true)
+      .option("inferSchema", true)
+      .csv("file:///home/maria_dev/insurance.csv")
+    
+    df.createOrReplaceTempView("insuranceTable") 
+    spark.sql("""
+    SELECT claim_category, approval, COUNT(approval)
+    FROM insuranceTable
+    WHERE approval = "N"
+    GROUP By claim_category, approval
+    ORDER BY COUNT(approval) DEsC
+    """).show()
+    }
+
+
 }

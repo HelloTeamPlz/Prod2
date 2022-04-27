@@ -11,9 +11,16 @@ import org.apache.spark.sql.types._
 object Analyze {
 
   val path = "hdfs://sandbox-hdp.hortonworks.com:8020/user/maria_dev/"
+  val otherSRC = "file:///home/maria_dev/project_csv.csv"
+  val src = "file:///home/maria_dev/insurance.csv"
+  val spark: SparkSession = SparkSession
+    .builder()
+    .master("local[3]")
+    .appName("Synergy")
+    .getOrCreate()
+    spark.sparkContext.setLogLevel("ERROR")
 
   def copyFromLocal(): Unit = {
-    val src = "file:///home/maria_dev/insurance.csv"
     val target = path + "insurance.csv"
     println(s"Copying local file $src to $target ...")
     
@@ -28,20 +35,13 @@ object Analyze {
   }
 
 def fromCSVFile(): Unit = {
-    val spark: SparkSession = SparkSession
-        .builder()
-        .master("local[3]")
-        .appName("Synergy")
-        .getOrCreate()
-        spark.sparkContext.setLogLevel("ERROR")
-
     val sc = spark.sparkContext
     val df = spark.read
       .option("header", true)
       .option("inferSchema", true)
-      .csv("file:///home/maria_dev/insurance.csv")
+      .csv(otherSRC)
     
-    df.show()
+    //df.show()
     //df.createOrReplaceTempView("insuranceTable") 
     //spark.sql("""
     //SELECT state, AVG(customer_age)
@@ -53,18 +53,12 @@ def fromCSVFile(): Unit = {
 
 
 def avgAge(): Unit = {
-    val spark: SparkSession = SparkSession
-        .builder()
-        .master("local[3]")
-        .appName("Synergy")
-        .getOrCreate()
-        spark.sparkContext.setLogLevel("ERROR")
 
     val sc = spark.sparkContext
     val df = spark.read
       .option("header", true)
       .option("inferSchema", true)
-      .csv("file:///home/maria_dev/insurance.csv")
+      .csv(otherSRC)
     
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
@@ -76,18 +70,12 @@ def avgAge(): Unit = {
     }
 
 def claimsByCategory(): Unit = {
-    val spark: SparkSession = SparkSession
-        .builder()
-        .master("local[3]")
-        .appName("Synergy")
-        .getOrCreate()
-        spark.sparkContext.setLogLevel("ERROR")
 
     val sc = spark.sparkContext
     val df = spark.read
       .option("header", true)
       .option("inferSchema", true)
-      .csv("file:///home/maria_dev/insurance.csv")
+      .csv(otherSRC)
     
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
@@ -100,18 +88,12 @@ def claimsByCategory(): Unit = {
 
 
 def highestFillingStates(): Unit = {
-    val spark: SparkSession = SparkSession
-        .builder()
-        .master("local[3]")
-        .appName("Synergy")
-        .getOrCreate()
-        spark.sparkContext.setLogLevel("ERROR")
 
     val sc = spark.sparkContext
     val df = spark.read
       .option("header", true)
       .option("inferSchema", true)
-      .csv("file:///home/maria_dev/insurance.csv")
+      .csv(otherSRC)
     
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
@@ -123,18 +105,12 @@ def highestFillingStates(): Unit = {
     }
 
 def mostFiledReason(): Unit = {
-    val spark: SparkSession = SparkSession
-        .builder()
-        .master("local[3]")
-        .appName("Synergy")
-        .getOrCreate()
-        spark.sparkContext.setLogLevel("ERROR")
 
     val sc = spark.sparkContext
     val df = spark.read
       .option("header", true)
       .option("inferSchema", true)
-      .csv("file:///home/maria_dev/insurance.csv")
+      .csv(otherSRC)
     
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
@@ -146,18 +122,12 @@ def mostFiledReason(): Unit = {
     }
 
 def approvalByCategory(): Unit = {
-    val spark: SparkSession = SparkSession
-        .builder()
-        .master("local[3]")
-        .appName("Synergy")
-        .getOrCreate()
-        spark.sparkContext.setLogLevel("ERROR")
 
     val sc = spark.sparkContext
     val df = spark.read
       .option("header", true)
       .option("inferSchema", true)
-      .csv("file:///home/maria_dev/insurance.csv")
+      .csv(otherSRC)
     
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
@@ -170,18 +140,12 @@ def approvalByCategory(): Unit = {
     }
 
 def unApprovalByCategory(): Unit = {
-    val spark: SparkSession = SparkSession
-        .builder()
-        .master("local[3]")
-        .appName("Synergy")
-        .getOrCreate()
-        spark.sparkContext.setLogLevel("ERROR")
 
     val sc = spark.sparkContext
     val df = spark.read
       .option("header", true)
       .option("inferSchema", true)
-      .csv("file:///home/maria_dev/insurance.csv")
+      .csv(otherSRC)
     
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""

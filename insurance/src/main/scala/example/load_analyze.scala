@@ -60,13 +60,14 @@ def avgAge(): Unit = {
       .option("inferSchema", true)
       .csv(otherSRC)
     
+    println("Average Customer Age By State")
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
     SELECT state, AVG(customer_age)
     FROM insuranceTable
     GROUP BY state
     ORDER BY AVG(customer_age) ASC
-    """).show()
+    """).show(50)
     }
 
 def claimsByCategory(): Unit = {
@@ -77,6 +78,7 @@ def claimsByCategory(): Unit = {
       .option("inferSchema", true)
       .csv(otherSRC)
     
+    println("Claim Count By Category")
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
     SELECT claim_category, COUNT(claim_amount)
@@ -94,6 +96,7 @@ def amountByCategory(): Unit = {
       .option("inferSchema", true)
       .csv(otherSRC)
     
+    println("Average Claim Amount By Category")
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
     SELECT claim_category, AVG(claim_amount)
@@ -110,7 +113,9 @@ def highestFillingStates(): Unit = {
       .option("header", true)
       .option("inferSchema", true)
       .csv(otherSRC)
-    
+
+
+    println("Top 10 Highest Claim Filing States")
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
     SELECT state, COUNT(claim_amount)
@@ -128,6 +133,7 @@ def highestClaims(): Unit = {
       .option("inferSchema", true)
       .csv(otherSRC)
     
+    println("Top 10 Highest Claim Amounts Nationwide")
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
     SELECT customer_name, state, claim_category, MAX(claim_amount)
@@ -145,6 +151,7 @@ def mostFiledReason(): Unit = {
       .option("inferSchema", true)
       .csv(otherSRC)
     
+    println("Most Common Claim Statuses")
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
     SELECT failure_reason, COUNT(claim_amount)

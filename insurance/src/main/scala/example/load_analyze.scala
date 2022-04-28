@@ -60,7 +60,7 @@ object Analyze {
       FIELDS TERMINATED BY ','""")
     
     sqlContext.sql("""LOAD DATA INPATH '/user/maria_dev/insurance.csv' INTO TABLE default.Insurance""")
-    // var data = sqlContext.sql("""SELECT * FROM default.Insurance""")
+    //var data = sqlContext.sql("""SELECT * FROM default.Insurance""")
     }
 
 def fromCSVFile(): Unit = {
@@ -81,112 +81,69 @@ def fromCSVFile(): Unit = {
 
 
 def avgAge(): Unit = {
-
-    val sc = spark.sparkContext
-    val df = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv(otherSRC)
-    
     println("Average Customer Age By State")
-    df.createOrReplaceTempView("insuranceTable") 
-    spark.sql("""
+    var data = sqlContext.sql("""
     SELECT state, AVG(customer_age)
-    FROM insuranceTable
+    FROM default.Insurance
     GROUP BY state
     ORDER BY AVG(customer_age) ASC
-    """).show(50)
+    """)
+    data.show(50)
     }
 
 def claimsByCategory(): Unit = {
-
-    val sc = spark.sparkContext
-    val df = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv(otherSRC)
-    
     println("Claim Count By Category")
-    df.createOrReplaceTempView("insuranceTable") 
-    spark.sql("""
-    SELECT claim_category, COUNT(claim_amount)
-    FROM insuranceTable
+    var data = sqlContext.sql("""
+    SELECT claim_category, COUNT(amount)
+    FROM default.Insurance
     GROUP By claim_category
-    ORDER BY COUNT(claim_amount) DEsC
-    """).show()
+    ORDER BY COUNT(amount) DEsC
+    """)
+    data.show()
     }
 
 def amountByCategory(): Unit = {
-
-    val sc = spark.sparkContext
-    val df = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv(otherSRC)
-    
     println("Average Claim Amount By Category")
-    df.createOrReplaceTempView("insuranceTable") 
-    spark.sql("""
-    SELECT claim_category, AVG(claim_amount)
-    FROM insuranceTable
+    var data = spark.sql("""
+    SELECT claim_category, AVG(amount)
+    FROM default.Insurance
     GROUP By claim_category
-    ORDER BY AVG(claim_amount) DEsC
-    """).show()
+    ORDER BY AVG(amount) DEsC
+    """)
+    data.show()
     }
 
 def highestFillingStates(): Unit = {
-
-    val sc = spark.sparkContext
-    val df = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv(otherSRC)
-
-
     println("Top 10 Highest Claim Filing States")
-    df.createOrReplaceTempView("insuranceTable") 
-    spark.sql("""
-    SELECT state, COUNT(claim_amount)
-    FROM insuranceTable
+    var data = spark.sql("""
+    SELECT state, COUNT(amount)
+    FROM default.Insurance
     GROUP By state, country
-    ORDER BY COUNT(claim_amount) DEsC LIMIT 10
-    """).show()
+    ORDER BY COUNT(amount) DEsC LIMIT 10
+    """)
+    data.show()
     }
 
 def highestClaims(): Unit = {
-
-    val sc = spark.sparkContext
-    val df = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv(otherSRC)
-    
     println("Top 10 Highest Claim Amounts Nationwide")
-    df.createOrReplaceTempView("insuranceTable") 
-    spark.sql("""
-    SELECT customer_name, state, claim_category, MAX(claim_amount)
-    FROM insuranceTable
+    var data = spark.sql("""
+    SELECT customer_name, state, claim_category, MAX(amount)
+    FROM default.Insurance
     GROUP By customer_name, state, country, claim_category
-    ORDER BY MAX(claim_amount) DEsC LIMIT 10
-    """).show()
+    ORDER BY MAX(amount) DEsC LIMIT 10
+    """)
+    data.show()
     }
 
 def mostFiledReason(): Unit = {
-
-    val sc = spark.sparkContext
-    val df = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv(otherSRC)
-    
     println("Most Common Claim Statuses")
-    df.createOrReplaceTempView("insuranceTable") 
-    spark.sql("""
-    SELECT failure_reason, COUNT(claim_amount)
-    FROM insuranceTable
+    var data = spark.sql("""
+    SELECT failure_reason, COUNT(amount)
+    FROM default.Insurance
     GROUP BY failure_reason
     ORDER BY COUNT(failure_reason) DEsC
-    """).show()
+    """)
+    data.show()
     }
 
 //they dont have an aproval col

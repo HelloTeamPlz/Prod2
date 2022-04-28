@@ -22,12 +22,12 @@ object genData {
       createCSV()
       //Analyze.copyFromLocal() // moves the file into hdfs
       // Analyze.fromCSVFile() // turns the csv file into a dataframe
-      // Analyze.avgAge()
-      // Analyze.claimsByCategory()
-      // Analyze.amountByCategory()
-      // Analyze.highestFillingStates()
-      // Analyze.highestClaims()
-      // Analyze.mostFiledReason()
+      Analyze.avgAge()
+      Analyze.claimsByCategory()
+      Analyze.amountByCategory()
+      Analyze.highestFillingStates()
+      Analyze.highestClaims()
+      Analyze.mostFiledReason()
       // Analyze.approvalByCategory()
       // Analyze.unApprovalByCategory()
       Analyze.toHive()

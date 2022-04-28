@@ -86,6 +86,22 @@ def claimsByCategory(): Unit = {
     """).show()
     }
 
+def amountByCategory(): Unit = {
+
+    val sc = spark.sparkContext
+    val df = spark.read
+      .option("header", true)
+      .option("inferSchema", true)
+      .csv(otherSRC)
+    
+    df.createOrReplaceTempView("insuranceTable") 
+    spark.sql("""
+    SELECT claim_category, AVG(claim_amount)
+    FROM insuranceTable
+    GROUP By claim_category
+    ORDER BY AVG(claim_amount) DEsC
+    """).show()
+    }
 
 def highestFillingStates(): Unit = {
 
@@ -104,23 +120,40 @@ def highestFillingStates(): Unit = {
     """).show()
     }
 
-    //doesnt work
-// def mostFiledReason(): Unit = {
+def highestClaims(): Unit = {
 
-//     val sc = spark.sparkContext
-//     val df = spark.read
-//       .option("header", true)
-//       .option("inferSchema", true)
-//       .csv(otherSRC)
+    val sc = spark.sparkContext
+    val df = spark.read
+      .option("header", true)
+      .option("inferSchema", true)
+      .csv(otherSRC)
     
-//     df.createOrReplaceTempView("insuranceTable") 
-//     spark.sql("""
-//     SELECT reason, claim_category, COUNT(claim_amount)
-//     FROM insuranceTable
-//     GROUP BY reason, claim_category
-//     ORDER BY COUNT(reason) DEsC LIMIT 5
-//     """).show()
-//     }
+    df.createOrReplaceTempView("insuranceTable") 
+    spark.sql("""
+    SELECT customer_name, state, claim_category, MAX(claim_amount)
+    FROM insuranceTable
+    GROUP By customer_name, state, country, claim_category
+    ORDER BY MAX(claim_amount) DEsC LIMIT 10
+    """).show()
+    }
+
+def mostFiledReason(): Unit = {
+
+    val sc = spark.sparkContext
+    val df = spark.read
+      .option("header", true)
+      .option("inferSchema", true)
+      .csv(otherSRC)
+    
+    df.createOrReplaceTempView("insuranceTable") 
+    spark.sql("""
+    SELECT failure_reason, COUNT(claim_amount)
+    FROM insuranceTable
+    GROUP BY failure_reason
+    ORDER BY COUNT(failure_reason) DEsC
+    """).show()
+    }
+
 //they dont have an aproval col
 // def approvalByCategory(): Unit = { 
 

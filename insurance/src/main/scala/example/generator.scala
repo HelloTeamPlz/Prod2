@@ -19,13 +19,15 @@ object genData {
     val csvFile = "/home/maria_dev/insurance.csv"
  
     def main(args: Array[String]):Unit = {
-      //createCSV()
-      //Analyze.copyFromLocal() // moves the file into hdfs
-      //Analyze.fromCSVFile() // turns the csv file into a dataframe
+      createCSV()
+      Analyze.copyFromLocal() // moves the file into hdfs
+      Analyze.fromCSVFile() // turns the csv file into a dataframe
       Analyze.avgAge()
       Analyze.claimsByCategory()
+      Analyze.amountByCategory()
       Analyze.highestFillingStates()
-      // Analyze.mostFiledReason()
+      Analyze.highestClaims()
+      Analyze.mostFiledReason()
       // Analyze.approvalByCategory()
       // Analyze.unApprovalByCategory()
     }

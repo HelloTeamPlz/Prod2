@@ -79,10 +79,10 @@ def claimsByCategory(): Unit = {
     
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
-    SELECT claim_category, COUNT(amount)
+    SELECT claim_category, COUNT(claim_amount)
     FROM insuranceTable
     GROUP By claim_category
-    ORDER BY COUNT(amount) DEsC
+    ORDER BY COUNT(claim_amount) DEsC
     """).show()
     }
 
@@ -97,65 +97,67 @@ def highestFillingStates(): Unit = {
     
     df.createOrReplaceTempView("insuranceTable") 
     spark.sql("""
-    SELECT state, COUNT(amount)
+    SELECT state, COUNT(claim_amount)
     FROM insuranceTable
     GROUP By state, country
-    ORDER BY COUNT(amount) DEsC LIMIT 10
+    ORDER BY COUNT(claim_amount) DEsC LIMIT 10
     """).show()
     }
 
-def mostFiledReason(): Unit = {
+    //doesnt work
+// def mostFiledReason(): Unit = {
 
-    val sc = spark.sparkContext
-    val df = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv(otherSRC)
+//     val sc = spark.sparkContext
+//     val df = spark.read
+//       .option("header", true)
+//       .option("inferSchema", true)
+//       .csv(otherSRC)
     
-    df.createOrReplaceTempView("insuranceTable") 
-    spark.sql("""
-    SELECT reason, claim_category, COUNT(amount)
-    FROM insuranceTable
-    GROUP BY reason, claim_category
-    ORDER BY COUNT(reason) DEsC LIMIT 5
-    """).show()
-    }
+//     df.createOrReplaceTempView("insuranceTable") 
+//     spark.sql("""
+//     SELECT reason, claim_category, COUNT(claim_amount)
+//     FROM insuranceTable
+//     GROUP BY reason, claim_category
+//     ORDER BY COUNT(reason) DEsC LIMIT 5
+//     """).show()
+//     }
+//they dont have an aproval col
+// def approvalByCategory(): Unit = { 
 
-def approvalByCategory(): Unit = {
-
-    val sc = spark.sparkContext
-    val df = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv(otherSRC)
+//     val sc = spark.sparkContext
+//     val df = spark.read
+//       .option("header", true)
+//       .option("inferSchema", true)
+//       .csv(otherSRC)
     
-    df.createOrReplaceTempView("insuranceTable") 
-    spark.sql("""
-    SELECT claim_category, approval, COUNT(approval)
-    FROM insuranceTable
-    WHERE approval = "Y"
-    GROUP By claim_category, approval
-    ORDER BY COUNT(approval) DEsC
-    """).show()
-    }
+//     df.createOrReplaceTempView("insuranceTable") 
+//     spark.sql("""
+//     SELECT claim_category, approval, COUNT(approval)
+//     FROM insuranceTable
+//     WHERE approval = "Y"
+//     GROUP By claim_category, approval
+//     ORDER BY COUNT(approval) DEsC
+//     """).show()
+//     }
 
-def unApprovalByCategory(): Unit = {
+//they dont have an aproval col
+// def unApprovalByCategory(): Unit = {
 
-    val sc = spark.sparkContext
-    val df = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv(otherSRC)
+//     val sc = spark.sparkContext
+//     val df = spark.read
+//       .option("header", true)
+//       .option("inferSchema", true)
+//       .csv(otherSRC)
     
-    df.createOrReplaceTempView("insuranceTable") 
-    spark.sql("""
-    SELECT claim_category, approval, COUNT(approval)
-    FROM insuranceTable
-    WHERE approval = "N"
-    GROUP By claim_category, approval
-    ORDER BY COUNT(approval) DEsC
-    """).show()
-    }
+//     df.createOrReplaceTempView("insuranceTable") 
+//     spark.sql("""
+//     SELECT claim_category, approval, COUNT(approval)
+//     FROM insuranceTable
+//     WHERE approval = "N"
+//     GROUP By claim_category, approval
+//     ORDER BY COUNT(approval) DEsC
+//     """).show()
+//     }
 
 
 }

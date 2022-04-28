@@ -19,6 +19,8 @@ object Analyze {
     .appName("Synergy")
     .getOrCreate()
     spark.sparkContext.setLogLevel("ERROR")
+  val sc = spark.sparkContext
+  val sqlContext = new org.apache.spark.sql.hive.HiveContext(sc)
 
   def copyFromLocal(): Unit = {
     val target = path + "insurance.csv"
@@ -33,9 +35,35 @@ object Analyze {
     fs.copyFromLocalFile(false, localpath, hdfspath)
     println(s"Done copying local file $src to $target ...")
   }
+  def toHive(): Unit = {
+      
+      copyFromLocal() // moves the file into hdfs
+      sqlContext.sql("""CREATE TABLE IF NOT EXISTS default.Insurance (
+      claim_id string,
+      customer_id string,
+      customer_name string, 
+      customer_age int,
+      agent_id int,
+      agent_name string,
+      claim_category string,
+      amount int,
+      reason string,
+      agent_rating int,
+      datetime string,
+      country string,
+      state string,
+      approval string,
+      reimbursement_id string,
+      failure_reason string)
+      COMMENT 'Insurance Table'
+      ROW FORMAT DELIMITED
+      FIELDS TERMINATED BY ','""")
+    
+    sqlContext.sql("""LOAD DATA INPATH '/user/maria_dev/insurance.csv' INTO TABLE default.Insurance""")
+    // var data = sqlContext.sql("""SELECT * FROM default.Insurance""")
+    }
 
 def fromCSVFile(): Unit = {
-    val sc = spark.sparkContext
     val df = spark.read
       .option("header", true)
       .option("inferSchema", true)

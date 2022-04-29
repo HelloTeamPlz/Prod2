@@ -11,7 +11,7 @@ import org.apache.spark.sql.types._
 object Analyze {
 
   val path = "hdfs://sandbox-hdp.hortonworks.com:8020/user/maria_dev/"
-  val otherSRC = "file:///home/maria_dev/project_csv.csv"
+  //val otherSRC = "file:///home/maria_dev/project_csv.csv"
   val src = "file:///home/maria_dev/insurance.csv"
   val spark: SparkSession = SparkSession
     .builder()
@@ -60,14 +60,15 @@ object Analyze {
       FIELDS TERMINATED BY ','""")
     
     sqlContext.sql("""LOAD DATA INPATH '/user/maria_dev/insurance.csv' INTO TABLE default.Insurance""")
-    //var data = sqlContext.sql("""SELECT * FROM default.Insurance""")
+    var data = sqlContext.sql("""SELECT * FROM default.Insurance""")
+    data.show()
     }
 
-def fromCSVFile(): Unit = {
-    val df = spark.read
-      .option("header", true)
-      .option("inferSchema", true)
-      .csv(otherSRC)
+// def fromCSVFile(): Unit = {
+//     val df = spark.read
+//       .option("header", true)
+//       .option("inferSchema", true)
+//       .csv(otherSRC)
     
     //df.show()
     //df.createOrReplaceTempView("insuranceTable") 
@@ -77,7 +78,7 @@ def fromCSVFile(): Unit = {
     //GROUP BY state
     //ORDER BY AVG(customer_age) ASC
     //""").show()
-    }
+// }
 
 
 def avgAge(): Unit = {
@@ -136,7 +137,7 @@ def highestClaims(): Unit = {
     }
 
 def mostFiledReason(): Unit = {
-    println("Most Common Claim Statuses")
+    println("Most Common Reason For Falure of Claim")
     var data = spark.sql("""
     SELECT failure_reason, COUNT(amount)
     FROM default.Insurance

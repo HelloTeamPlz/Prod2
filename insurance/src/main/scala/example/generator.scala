@@ -20,8 +20,15 @@ object genData {
  
     def main(args: Array[String]):Unit = {
       createCSV()
-      Analyze.copyFromLocal() // moves the file into hdfs
-      Analyze.fromCSVFile() // turns the csv file into a dataframe
+      Analyze.toHive()
+      // Analyze.avgAge()
+      // Analyze.claimsByCategory()
+      // Analyze.amountByCategory()
+      // Analyze.highestFillingStates()
+      // Analyze.highestClaims()
+      // Analyze.mostFiledReason()
+      //// Analyze.approvalByCategory()
+      //// Analyze.unApprovalByCategory()
     }
 
     def getFileLines(filePath: String): List[Any] = {
@@ -171,8 +178,8 @@ object genData {
       }
     def createCSV(): Unit = {
       val insData = csvFile
-      val feilds = "claim_id,customer_id,customer_name,Customer_age,agent_id,agent_name,claim_category,amount,reason,agent_rating,datetime,country,state,approval,reimbursement_id,failure_reason\n"
-      writeToFile(insData, feilds)
+      //val feilds = "claim_id,customer_id,customer_name,Customer_age,agent_id,agent_name,claim_category,amount,reason,agent_rating,datetime,country,state,approval,reimbursement_id,failure_reason\n"
+      writeToFile(insData, "")
       println("Creating Data")
       for(i <- 1 until 5000) //for loop to determine how big to make data set
       {

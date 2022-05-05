@@ -45,6 +45,6 @@ object SparkStreamKafkaSource {
     SELECT product_category, AVG(price)
     FROM ecommerceTable
     GROUP BY product_category
-    ORDER BY AVG(Price) ASC
+    ORDER BY AVG(price) ASC
     """)
     avgCat.show()

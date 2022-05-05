@@ -41,9 +41,10 @@ object SparkStreamKafkaSource {
       .select(col("value").cast("string"))
     
     df.createOrReplaceTempView("ecommerceTable") 
-    spark.sql("""
+    val avgCat = spark.sql("""
     SELECT product_category, AVG(price)
     FROM ecommerceTable
     GROUP BY product_category
     ORDER BY AVG(Price) ASC
-    """).show()"""
+    """)
+    avgCat.show()
